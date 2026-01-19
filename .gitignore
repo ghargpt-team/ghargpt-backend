@@ -56,3 +56,4 @@ Thumbs.db
 .github/copilot/
 .kittify/.dashboard
 ghargpt-env/
+libs/mongodb-serve/.env
