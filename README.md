@@ -87,3 +87,37 @@ nx serve api
 ```
 
 ![GharGPT nx_serve_api](docs/images/nx_serve_api.png)
+
+## Spec-Kitty Configuration
+
+```
+https://github.com/Priivacy-ai/spec-kitty
+```
+
+### Step 1: Specification Driven Development setup
+
+```bash
+python -m venv ghargpt-env
+source bin/activate
+
+➜  ghargpt-env git:(main) ✗ pwd
+/Users/abcd/Documents/GharGPT-DEV/ghargpt-backend/ghargpt-env
+➜  ghargpt-env git:(main) ✗ source bin/activate
+(ghargpt-env) ➜  ghargpt-env git:(main) ✗
+```
+
+![GharGPT spec-kitty-setup](docs/images/spec-kitty-setup.png)
+
+### Step 2: Spec-Kitty Initialization
+
+```bash
+/Users/abcd/Documents/GharGPT-DEV/ghargpt-backend/ghargpt-env/bin/spec-kitty . init
+```
+
+### Step 3: Feature development using Spec-Kitty
+
+```bash
+ /Users/abcd/Documents/GharGPT-DEV/ghargpt-backend/ghargpt-env/bin/spec-kitty agent feature create-feature "gharApi_v0_001"
+```
+
+Update the "kitty-specs/001-gharApi_v0_001/spec.md" with feature requirement and acceptance criteria.
