@@ -1,77 +1,89 @@
-# GhargptBackend
+# GharGPT Backend
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This repository contains the backend platform for **GharGPT**, built using **Nx (v22.3.3)** as a scalable monorepo foundation. This README documents the initial setup, tooling decisions, and next steps so contributors can quickly understand and extend the platform.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 1. Workspace Initialization
 
-## Finish your remote caching setup
+The backend workspace was initialized using **Nx (v22.3.3)** with an applications-first preset.
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/wyfWo7plF7)
+### Step 1: Create Nx Workspace
 
-
-## Run tasks
-
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```bash
+npx create-nx-workspace@latest ghargpt-backend --preset=apps --packageManager=npm
 ```
 
-For example:
+### Step 2: Install Nx Python Plugin
 
-```sh
-npx nx build myproject
+```bash
+npm install -D @nxlv/python
+poetry env use python3.11
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+This installs the Nx Python plugin required to generate and manage Python applications inside the Nx workspace.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Step 3: Generate FastAPI Application
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```bash
+nx g @nxlv/python:poetry-project api \
+  --projectType=application \
+  --framework=fastapi \
+  --directory=apps/api
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+• Creates an Nx application named api
+• Uses Poetry for dependency management
+• Bootstraps a FastAPI project
+• Sets the project root explicitly to apps/api
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
+```
+CREATE apps/api/project.json
+CREATE apps/api/README.md
+CREATE apps/api/.python-version
+CREATE apps/api/api/__init__.py
+CREATE apps/api/api/hello.py
+CREATE apps/api/poetry.toml
+CREATE apps/api/pyproject.toml
+CREATE apps/api/tests/__init__.py
+CREATE apps/api/tests/conftest.py
+CREATE apps/api/tests/test_hello.py
+CREATE apps/api/.flake8
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Step 4: Project structure
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+ghargpt-backend/
+├── apps/
+│ └── api/ # FastAPI application (Nx project)
+│ ├── api/ # Python package (application code)
+│ │ ├── **init**.py
+│ │ └── hello.py # Sample FastAPI endpoint
+│ ├── tests/ # Pytest test suite
+│ │ ├── **init**.py
+│ │ ├── conftest.py
+│ │ └── test_hello.py
+│ ├── project.json # Nx project configuration
+│ ├── pyproject.toml # Poetry project definition
+│ ├── poetry.toml # Poetry configuration
+│ ├── .python-version # Python runtime version
+│ ├── .flake8 # Linting configuration
+│ └── README.md # API-specific documentation
+├── docs/
+| └── images/
+| | └── nx_serve_api.png
+├── libs/ # Shared libraries (future)
+├── tools/ # Workspace tooling
+├── .github/ # CI workflows
+├── nx.json # Nx configuration
+├── package.json # Workspace dependencies
+├── package-lock.json # Dependency lockfile
+└── README.md # Workspace documentation
 
+### Step 5: Run the application
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+nx serve api
+```
 
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+![GharGPT nx_serve_api](docs/images/nx_serve_api.png)
