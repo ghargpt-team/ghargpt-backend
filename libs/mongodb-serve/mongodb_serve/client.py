@@ -21,10 +21,8 @@ def get_client() -> AsyncIOMotorClient:
 
         _client = AsyncIOMotorClient(
             mongo_uri,
-            tls=True,
-            # Allow invalid certificates for Docker compatibility
-            tlsAllowInvalidCertificates=True,
-            tlsAllowInvalidHostnames=True,     # Allow invalid hostnames
+            # Temporarily disable SSL to test connection
+            ssl=False,
             serverSelectionTimeoutMS=5000,
             connectTimeoutMS=20000,
             socketTimeoutMS=20000,
