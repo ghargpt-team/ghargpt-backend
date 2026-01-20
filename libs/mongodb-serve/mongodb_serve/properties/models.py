@@ -282,3 +282,125 @@ class Property(BaseModel):
         json_encoders = {
             ObjectId: str
         }
+
+
+class PropertyCreate(BaseModel):
+    """Model for creating new properties (excludes auto-generated fields)"""
+
+    # Basic Information
+    name: str
+    property_type: PropertyType
+    age: int  # Years (0 for under construction)
+
+    # Location Details
+    location: Location
+
+    # Nearby Landmarks
+    landmarks: List[Landmark] = []
+
+    # Financial Information
+    budget: Budget
+    market_price: Optional[MarketPrice] = None
+
+    # Property Specifications
+    specifications: Specifications
+
+    # Benefits & Drawbacks
+    benefits: List[Benefit] = []
+    drawbacks: List[Drawback] = []
+
+    # Similar Properties
+    similar_properties: List[SimilarProperty] = []
+
+    # Verification & Trust
+    isVerified: bool = False
+    verification: Optional[Verification] = None
+
+    # Developer/Owner Information
+    owner: Owner
+
+    # Social Engagement (start at 0)
+    ratings: Optional[Ratings] = None
+    likes: int = 0
+    views: int = 0
+    inquiries: int = 0
+
+    # Comments/Reviews
+    comments: List[Comment] = []
+
+    # Media
+    images: List[Image] = []
+    videos: List[Video] = []
+
+    # SEO & Metadata
+    slug: str
+    meta: Meta
+
+    # Status & Timestamps (will be auto-generated)
+    status: Status = Status.ACTIVE
+    featured: bool = False
+    expires_at: Optional[datetime] = None
+
+    # AI/ML Fields
+    ai_metadata: Optional[AIMetadata] = None
+
+
+class PropertyUpdate(BaseModel):
+    """Model for updating properties (all fields optional)"""
+
+    # Basic Information
+    name: Optional[str] = None
+    property_type: Optional[PropertyType] = None
+    age: Optional[int] = None
+
+    # Location Details
+    location: Optional[Location] = None
+
+    # Nearby Landmarks
+    landmarks: Optional[List[Landmark]] = None
+
+    # Financial Information
+    budget: Optional[Budget] = None
+    market_price: Optional[MarketPrice] = None
+
+    # Property Specifications
+    specifications: Optional[Specifications] = None
+
+    # Benefits & Drawbacks
+    benefits: Optional[List[Benefit]] = None
+    drawbacks: Optional[List[Drawback]] = None
+
+    # Similar Properties
+    similar_properties: Optional[List[SimilarProperty]] = None
+
+    # Verification & Trust
+    isVerified: Optional[bool] = None
+    verification: Optional[Verification] = None
+
+    # Developer/Owner Information
+    owner: Optional[Owner] = None
+
+    # Social Engagement
+    ratings: Optional[Ratings] = None
+    likes: Optional[int] = None
+    views: Optional[int] = None
+    inquiries: Optional[int] = None
+
+    # Comments/Reviews
+    comments: Optional[List[Comment]] = None
+
+    # Media
+    images: Optional[List[Image]] = None
+    videos: Optional[List[Video]] = None
+
+    # SEO & Metadata
+    slug: Optional[str] = None
+    meta: Optional[Meta] = None
+
+    # Status & Timestamps
+    status: Optional[Status] = None
+    featured: Optional[bool] = None
+    expires_at: Optional[datetime] = None
+
+    # AI/ML Fields
+    ai_metadata: Optional[AIMetadata] = None

@@ -2,16 +2,16 @@
 
 ## Overview
 
-This plan outlines the step-by-step implementation of the GET /properties API endpoint for fetching property details from MongoDB. The implementation follows the GharGPT Backend constitution and uses the Nx monorepo structure with shared libraries.
+This plan outlines the complete implementation of a full CRUD API for property management, including Create, Read, Update, and Delete operations. The implementation follows REST conventions and uses the GharGPT Backend constitution with Nx monorepo structure and shared libraries.
 
 ## Current Status
 
-- ✅ Spec completed (`spec.md`)
+- ✅ Spec completed (`spec.md`) - Updated with full CRUD requirements
 - ✅ Research artifacts generated
 - ✅ Properties package created in `mongodb-serve` library
 - ✅ Pydantic models defined
-- ✅ Database service implemented
-- ✅ API endpoint structured in separate router
+- ✅ Database service implemented with all CRUD methods
+- ✅ Basic API endpoint structure in separate router
 - ✅ Dependencies configured
 
 ## Implementation Phases
@@ -45,9 +45,46 @@ This plan outlines the step-by-step implementation of the GET /properties API en
 - Sample data can be retrieved
 - Indexes created and optimized
 
-### Phase 2: API Endpoint Testing (Priority: High)
+### Phase 2: Complete CRUD API Implementation (Priority: High)
 
-**Objective**: Validate the API endpoint functionality
+**Objective**: Implement all CRUD endpoints for full property management
+
+**Tasks**:
+
+1. **GET /properties** - List properties with filtering (Already implemented)
+   - Query parameters: `skip`, `limit`, `city`, `property_type`, `min_budget`, `max_budget`, `is_verified`
+   - Response: Paginated list of properties
+
+2. **GET /properties/{property_id}** - Get single property
+   - Path parameter: `property_id`
+   - Response: Single property or 404
+
+3. **POST /properties** - Create new property
+   - Request body: PropertyCreate model
+   - Response: Created property with generated ID and timestamps
+   - Status: 201 Created
+
+4. **PUT /properties/{property_id}** - Full property update
+   - Path parameter: `property_id`
+   - Request body: Complete PropertyUpdate model
+   - Response: Updated property or 404
+
+5. **PATCH /properties/{property_id}** - Partial property update
+   - Path parameter: `property_id`
+   - Request body: Partial PropertyUpdate model (optional fields)
+   - Response: Updated property or 404
+
+6. **DELETE /properties/{property_id}** - Delete property
+   - Path parameter: `property_id`
+   - Response: 204 No Content or 404
+
+**Acceptance Criteria**:
+
+- All 6 REST endpoints implemented and functional
+- Proper HTTP status codes returned
+- Request/response validation working
+- Error handling for invalid requests
+- Integration with existing PropertyService methods
 
 **Tasks**:
 

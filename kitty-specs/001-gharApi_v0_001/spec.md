@@ -13,14 +13,14 @@ This feature specification is based on the GharGPT Backend Constitution (see `ki
 
 ## Feature Overview
 
-Develop a GET API service to fetch property details from the MongoDB database. This API will allow clients to retrieve all properties or filter them based on various criteria.
+Develop a complete CRUD API service for property management, allowing clients to Create, Read, Update, and Delete property details from the MongoDB database. This API will support full property lifecycle management with filtering, pagination, and proper error handling.
 
 ## Technical Implementation
 
 - **Framework**: Python FastAPI within Nx monorepo
 - **Database Library**: `libs/mongodb-serve` with `properties` package for database transactions
 - **API Location**: `apps/api` application
-- **Endpoint**: `GET /properties` with optional query parameters for filtering
+- **Endpoints**: Full CRUD operations (GET, POST, PUT, PATCH, DELETE) with proper REST conventions
 
 ## Properties Package in mongodb-serve Library
 
@@ -31,17 +31,24 @@ Created `libs/mongodb-serve/mongodb_serve/properties/` package containing:
 Pydantic models for Property data structures including:
 
 - Property base model with all fields from schema
+- PropertyCreate model for POST requests (without auto-generated fields)
+- PropertyUpdate model for PATCH requests (all fields optional)
 - Enums for property types, facing directions, etc.
 - Nested models for location, budget, specifications, etc.
 
 ### service.py
 
-Database service class with methods:
+Database service class with complete CRUD methods:
 
-- `get_all_properties()` - Fetch all properties with pagination
-- `get_property_by_id()` - Fetch single property
-- `get_properties_by_filters()` - Filtered search with city, type, budget, verification status
-- CRUD operations for future use
+- **Read Operations**:
+  - `get_all_properties()` - Fetch all properties with pagination
+  - `get_property_by_id()` - Fetch single property by ID
+  - `get_properties_by_filters()` - Filtered search with city, type, budget, verification status
+
+- **Write Operations**:
+  - `create_property()` - Create new property
+  - `update_property()` - Update existing property
+  - `delete_property()` - Delete property by ID
 
 ## MongoDB Schema
 
@@ -120,38 +127,67 @@ Located at `apps/api/api/schemas/property.py`
 
 ### 2. API Endpoint Structure
 
-- **Router File**: `apps/api/api/properties.py` - Contains the properties router with GET /properties endpoint
+- **Router File**: `apps/api/api/properties.py` - Contains all property CRUD endpoints
 - **Main App**: `apps/api/api/main.py` - Includes the properties router and initializes services
-- Query parameters: `skip`, `limit`, `city`, `property_type`, `min_budget`, `max_budget`, `is_verified`
-- Response: List of Property objects
 
-### 3. Response Model
+### 3. REST API Endpoints
+
+#### GET /properties
+
+- **Purpose**: Retrieve all properties with optional filtering and pagination
+- **Query Parameters**: `skip`, `limit`, `city`, `property_type`, `min_budget`, `max_budget`, `is_verified`
+- **Response**: List of Property objects
+
+#### GET /properties/{property_id}
+
+- **Purpose**: Retrieve a single property by ID
+- **Path Parameter**: `property_id` (string)
+- **Response**: Single Property object or 404 if not found
+
+#### POST /properties
+
+- **Purpose**: Create a new property
+- **Request Body**: PropertyCreate model (without auto-generated fields like \_id, timestamps)
+- **Response**: Created Property object with generated fields
+- **Status Code**: 201 Created
+
+#### PUT /properties/{property_id}
+
+- **Purpose**: Update an entire property (full replacement)
+- **Path Parameter**: `property_id` (string)
+- **Request Body**: Complete PropertyUpdate model
+- **Response**: Updated Property object or 404 if not found
+
+#### PATCH /properties/{property_id}
+
+- **Purpose**: Partially update a property
+- **Path Parameter**: `property_id` (string)
+- **Request Body**: Partial PropertyUpdate model (only changed fields)
+- **Response**: Updated Property object or 404 if not found
+
+#### DELETE /properties/{property_id}
+
+- **Purpose**: Delete a property by ID
+- **Path Parameter**: `property_id` (string)
+- **Response**: 204 No Content or 404 if not found
+
+### 4. Request/Response Models
 
 - Use Pydantic models from `libs/mongodb-serve/mongodb_serve/properties.models`
-- Ensure proper JSON serialization
+- **Property**: Full property model for responses
+- **PropertyCreate**: Model for POST requests (excludes auto-generated fields)
+- **PropertyUpdate**: Model for PUT/PATCH requests (all fields optional)
+- Ensure proper JSON serialization and validation
 
-### 4. Error Handling
+### 5. Error Handling
 
 - Handle database connection errors
-- Validate query parameters
+- Validate request data and query parameters
 - Return appropriate HTTP status codes
+- Provide meaningful error messages
 
-### 5. Testing
+### 6. Testing
 
 - Unit tests for PropertyService methods
-- Integration tests for API endpoint
+- Integration tests for all API endpoints
 - Use existing pytest setup in `apps/api/tests/`
-
-## Dependencies
-
-- Existing: `fastapi`, `motor`, `pydantic`, `pydantic-settings`
-- Library: `mongodb-serve` (internal dependency)
-
-## Next Steps
-
-1. Implement the GET /properties endpoint in `apps/api/api/properties.py` (completed)
-2. Include properties router in `apps/api/api/main.py` (completed)
-3. Add query parameter validation
-4. Test the endpoint with sample data
-5. Add pagination metadata to response
-6. Implement additional filtering options as needed

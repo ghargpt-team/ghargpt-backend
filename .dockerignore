@@ -1,0 +1,67 @@
+# Nx build artifacts
+.nx/
+node_modules/
+dist/
+coverage/
+reports/
+
+# Python virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Documentation
+README.md
+docs/
+
+# Test files
+tests/
+*.test.js
+*.spec.js
+
+# Development files
+.kittify/
+kitty-specs/
+
+# Reports and coverage
+coverage/
+reports/
+
+# GitHub
+.github/

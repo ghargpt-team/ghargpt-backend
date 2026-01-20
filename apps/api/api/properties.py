@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, HTTPException
 from typing import List, Optional
 from mongodb_serve.properties.service import PropertyService
-from mongodb_serve.properties.models import Property
+from mongodb_serve.properties.models import Property, PropertyCreate, PropertyUpdate
 
 # Create router for properties endpoints
 router = APIRouter()
@@ -53,6 +53,127 @@ async def get_properties(
             limit=limit
         )
         return properties
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database error: {str(e)}")
+
+
+@router.get("/properties/{property_id}", response_model=Property)
+async def get_property_by_id(property_id: str):
+    """
+    Get a single property by its ID.
+    """
+    if not property_service:
+        raise HTTPException(
+            status_code=500, detail="Property service not initialized")
+
+    try:
+        property_data = await property_service.get_property_by_id(property_id)
+        if not property_data:
+            raise HTTPException(status_code=404, detail="Property not found")
+        return property_data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database error: {str(e)}")
+
+
+@router.post("/properties", response_model=Property, status_code=201)
+async def create_property(property_data: PropertyCreate):
+    """
+    Create a new property.
+    """
+    if not property_service:
+        raise HTTPException(
+            status_code=500, detail="Property service not initialized")
+
+    try:
+        created_property = await property_service.create_property(property_data)
+        return created_property
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database error: {str(e)}")
+
+
+@router.put("/properties/{property_id}", response_model=Property)
+async def update_property(property_id: str, property_data: PropertyUpdate):
+    """
+    Update an entire property (full replacement).
+    """
+    if not property_service:
+        raise HTTPException(
+            status_code=500, detail="Property service not initialized")
+
+    try:
+        # Convert PropertyUpdate to dict for database update
+        update_dict = property_data.dict(exclude_unset=True)
+        if not update_dict:
+            # If no fields provided, return current property
+            current_property = await property_service.get_property_by_id(property_id)
+            if not current_property:
+                raise HTTPException(
+                    status_code=404, detail="Property not found")
+            return current_property
+
+        updated_property = await property_service.update_property(property_id, update_dict)
+        if not updated_property:
+            raise HTTPException(status_code=404, detail="Property not found")
+        return updated_property
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database error: {str(e)}")
+
+
+@router.patch("/properties/{property_id}", response_model=Property)
+async def partial_update_property(property_id: str, property_data: PropertyUpdate):
+    """
+    Partially update a property (only provided fields).
+    """
+    if not property_service:
+        raise HTTPException(
+            status_code=500, detail="Property service not initialized")
+
+    try:
+        # Convert PropertyUpdate to dict, excluding unset fields for partial update
+        update_dict = property_data.dict(exclude_unset=True)
+        if not update_dict:
+            # If no fields provided, return current property
+            current_property = await property_service.get_property_by_id(property_id)
+            if not current_property:
+                raise HTTPException(
+                    status_code=404, detail="Property not found")
+            return current_property
+
+        updated_property = await property_service.update_property(property_id, update_dict)
+        if not updated_property:
+            raise HTTPException(status_code=404, detail="Property not found")
+        return updated_property
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Database error: {str(e)}")
+
+
+@router.delete("/properties/{property_id}", status_code=204)
+async def delete_property(property_id: str):
+    """
+    Delete a property by its ID.
+    """
+    if not property_service:
+        raise HTTPException(
+            status_code=500, detail="Property service not initialized")
+
+    try:
+        deleted = await property_service.delete_property(property_id)
+        if not deleted:
+            raise HTTPException(status_code=404, detail="Property not found")
+        return  # 204 No Content - no response body
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Database error: {str(e)}")

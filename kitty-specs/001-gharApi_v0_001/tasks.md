@@ -11,15 +11,19 @@ Tasks are organized in subfolders by status:
 
 ## Current Task Status
 
-### 🔄 Planned (0 tasks)
+### 🔄 Planned (5 tasks)
 
-No tasks currently planned.
+- [implement-get-property-by-id.md](planned/implement-get-property-by-id.md) - GET single property endpoint
+- [implement-post-property.md](planned/implement-post-property.md) - POST create property endpoint
+- [implement-put-property.md](planned/implement-put-property.md) - PUT update property endpoint
+- [implement-patch-property.md](planned/implement-patch-property.md) - PATCH partial update endpoint
+- [implement-delete-property.md](planned/implement-delete-property.md) - DELETE property endpoint
 
 ### 🚧 Doing (0 tasks)
 
 No tasks currently in progress.
 
-### 👀 For Review (11 tasks)
+### 👀 For Review (16 tasks)
 
 - [create-properties-package.md](for_review/create-properties-package.md) - Properties package structure
 - [define-pydantic-models.md](for_review/define-pydantic-models.md) - Data models implementation
@@ -32,6 +36,11 @@ No tasks currently in progress.
 - [setup-mongodb-connection.md](for_review/setup-mongodb-connection.md) - Database connection setup
 - [create-database-indexes.md](for_review/create-database-indexes.md) - MongoDB indexes
 - [test-api-endpoint.md](for_review/test-api-endpoint.md) - API functionality testing
+- [implement-get-property-by-id.md](for_review/implement-get-property-by-id.md) - GET single property endpoint
+- [implement-post-property.md](for_review/implement-post-property.md) - POST create property endpoint
+- [implement-put-property.md](for_review/implement-put-property.md) - PUT update property endpoint
+- [implement-patch-property.md](for_review/implement-patch-property.md) - PATCH partial update endpoint
+- [implement-delete-property.md](for_review/implement-delete-property.md) - DELETE property endpoint
 
 ### ✅ Done (0 tasks)
 
