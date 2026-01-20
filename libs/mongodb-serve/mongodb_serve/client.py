@@ -21,8 +21,11 @@ def get_client() -> AsyncIOMotorClient:
 
         _client = AsyncIOMotorClient(
             mongo_uri,
-            serverSelectionTimeoutMS=5000,  # fail fast if unreachable
-            uuidRepresentation="standard",
+            tls=True,
+            tlsAllowInvalidCertificates=False,
+            serverSelectionTimeoutMS=5000,
+            connectTimeoutMS=20000,
+            socketTimeoutMS=20000,
         )
 
     return _client
