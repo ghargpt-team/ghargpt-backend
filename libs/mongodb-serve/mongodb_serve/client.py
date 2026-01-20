@@ -19,10 +19,10 @@ def get_client() -> AsyncIOMotorClient:
         if not mongo_uri:
             raise RuntimeError("MONGODB_URI is not set")
 
+        # For mongodb+srv URIs, SSL is automatically enabled
+        # Remove conflicting SSL parameters and let the URI handle SSL
         _client = AsyncIOMotorClient(
             mongo_uri,
-            # Temporarily disable SSL to test connection
-            ssl=False,
             serverSelectionTimeoutMS=5000,
             connectTimeoutMS=20000,
             socketTimeoutMS=20000,
