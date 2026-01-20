@@ -25,6 +25,15 @@ MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/database
 # Add any other variables from your .env file
 ```
 
+**Note:** Railway automatically sets the `PORT` environment variable. The application is configured to use this port.
+
+## Troubleshooting
+
+If you encounter "Poetry could not find a pyproject.toml file" error:
+- The Dockerfile has been updated to properly handle the monorepo structure
+- The application runs from the correct directory with Poetry configuration
+- Re-deploy after pushing the latest changes
+
 ## Health Check
 
 The application includes a health check that verifies the `/docs` endpoint is accessible.
