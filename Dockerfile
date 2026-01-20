@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -16,9 +16,12 @@ RUN apt-get update \
     openssl \
     libssl-dev \
     dnsutils \
-    && update-ca-certificates \
+    && mkdir -p /usr/local/share/ca-certificates \
+    && curl -s https://www.mongodb.org/static/pem/mongodb.pem -o /usr/local/share/ca-certificates/mongodb.crt \
     && curl -s https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -o /usr/local/share/ca-certificates/mongodb-atlas.crt \
+    && chmod 644 /usr/local/share/ca-certificates/*.crt \
     && update-ca-certificates \
+    && openssl version -a \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m venv $POETRY_VENV \
