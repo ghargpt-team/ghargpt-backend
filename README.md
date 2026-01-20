@@ -53,32 +53,34 @@ CREATE apps/api/.flake8
 
 ### Step 4: Project structure
 
+```text
 ghargpt-backend/
 ├── apps/
-│ └── api/ # FastAPI application (Nx project)
-│ ├── api/ # Python package (application code)
-│ │ ├── **init**.py
-│ │ └── hello.py # Sample FastAPI endpoint
-│ ├── tests/ # Pytest test suite
-│ │ ├── **init**.py
-│ │ ├── conftest.py
-│ │ └── test_hello.py
-│ ├── project.json # Nx project configuration
-│ ├── pyproject.toml # Poetry project definition
-│ ├── poetry.toml # Poetry configuration
-│ ├── .python-version # Python runtime version
-│ ├── .flake8 # Linting configuration
-│ └── README.md # API-specific documentation
+│   └── api/                         # FastAPI application (Nx project)
+│       ├── api/                     # Python package (application code)
+│       │   ├── __init__.py
+│       │   └── hello.py             # Sample FastAPI endpoint
+│       ├── tests/                   # Pytest test suite
+│       │   ├── __init__.py
+│       │   ├── conftest.py
+│       │   └── test_hello.py
+│       ├── project.json             # Nx project configuration
+│       ├── pyproject.toml           # Poetry project definition
+│       ├── poetry.toml              # Poetry configuration
+│       ├── .python-version          # Python runtime version
+│       ├── .flake8                  # Linting configuration
+│       └── README.md                # API-specific documentation
 ├── docs/
-| └── images/
-| | └── nx_serve_api.png
-├── libs/ # Shared libraries (future)
-├── tools/ # Workspace tooling
-├── .github/ # CI workflows
-├── nx.json # Nx configuration
-├── package.json # Workspace dependencies
-├── package-lock.json # Dependency lockfile
-└── README.md # Workspace documentation
+│   └── images/
+│       └── nx_serve_api.png         # Nx serve API screenshot
+├── libs/                            # Shared libraries (mongodb-serve, future libs)
+├── tools/                           # Workspace tooling
+├── .github/                         # CI workflows
+├── nx.json                          # Nx configuration
+├── package.json                     # Workspace dependencies
+├── package-lock.json                # Dependency lockfile
+└── README.md                        # Workspace documentation
+```
 
 ### Step 5: Run the application
 
