@@ -30,6 +30,7 @@ MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/database
 ## Troubleshooting
 
 If you encounter "Poetry could not find a pyproject.toml file" error:
+
 - The Dockerfile has been updated to properly handle the monorepo structure
 - The application runs from the correct directory with Poetry configuration
 - Re-deploy after pushing the latest changes
